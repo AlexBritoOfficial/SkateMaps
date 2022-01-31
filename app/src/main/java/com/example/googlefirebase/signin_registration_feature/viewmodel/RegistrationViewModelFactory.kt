@@ -1,4 +1,4 @@
-package com.example.googlefirebase.signin_registration_feature.presentation
+package com.example.googlefirebase.signin_registration_feature.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

@@ -1,6 +1,7 @@
 package com.example.googlefirebase.signin_registration_feature.domain.repositories
 
 import android.content.Context
+import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
 import com.example.googlefirebase.signin_registration_feature.domain.models.User
 
 class Repository(context: Context) {
@@ -23,6 +24,8 @@ class Repository(context: Context) {
         localRepository.insertUserIntoCache(user)
     }
 
-
+    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple {
+        return localRepository.checkIfUserExists(userName, userPassword)
+    }
 }
 

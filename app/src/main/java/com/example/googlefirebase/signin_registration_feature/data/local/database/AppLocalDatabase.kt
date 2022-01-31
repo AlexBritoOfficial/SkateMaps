@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.googlefirebase.signin_registration_feature.data.local.dao.UserDao
 import com.example.googlefirebase.signin_registration_feature.data.local.entity.UserEntity
 
-@Database(entities = [UserEntity::class], version = 1)
+@Database(entities = [UserEntity::class], version = 2)
 abstract class AppLocalDatabase : RoomDatabase() {
 
     abstract fun userDAO(): UserDao
@@ -30,7 +30,7 @@ abstract class AppLocalDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppLocalDatabase::class.java,
                     "AppLocalDatabase"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }

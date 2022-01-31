@@ -1,9 +1,10 @@
-package com.example.googlefirebase.signin_registration_feature.presentation
+package com.example.googlefirebase.signin_registration_feature.viewmodel
 
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
 import com.example.googlefirebase.signin_registration_feature.domain.models.User
 import com.example.googlefirebase.signin_registration_feature.domain.repositories.Repository
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,7 @@ class RegistrationViewModel(context: Context) : ViewModel() {
     val context = context
 
     private lateinit var repository: Repository
+    private lateinit var registeredUserTuple: RegisteredUserTuple
 
     init {
         Log.i("RegistrationViewModel", "RegistrationViewModel created!")
@@ -45,6 +47,14 @@ class RegistrationViewModel(context: Context) : ViewModel() {
             repository.insertUserIntoGoogleFireStore(user)
             repository.insertUserIntoCache(user)
         }
+    }
 
+    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple {
+
+        return repository.checkIfUserExists(userName, userPassword)
+    }
+
+    fun getRegisteredTuple(): RegisteredUserTuple {
+        return registeredUserTuple
     }
 }

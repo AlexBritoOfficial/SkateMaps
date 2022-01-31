@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.googlefirebase.databinding.FragmentRegistrationBinding
-import com.example.googlefirebase.signin_registration_feature.presentation.RegistrationViewModel
-import com.example.googlefirebase.signin_registration_feature.presentation.RegistrationViewModelFactory
+import com.example.googlefirebase.signin_registration_feature.viewmodel.RegistrationViewModel
+import com.example.googlefirebase.signin_registration_feature.viewmodel.RegistrationViewModelFactory
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 

@@ -23,17 +23,17 @@ class GoogleFireStoreRegistrationRepository(context: Context) {
     val firestoreDatabase = Firebase.firestore
 
     // Construct a Hash Map Object to insert user
-    fun constructHashMapForNewUser(user: User): HashMap<String, String> {
+    fun constructHashMapForNewUser(user: User): String {
         return hashMapOf(
             "username" to user.userName,
             "firstname" to user.firstName,
             "lastname" to user.lastName,
             "password" to user.userPassword,
             "confirmPassword" to user.confirmedPassword
-        )
+        ).toString()
     }
 
-   suspend fun insertUserIntoGoogleFireStore(user: User){
+    fun insertUserIntoGoogleFireStore(user: User){
         val hashMapUser = constructHashMapForNewUser(user);
 
         firestoreDatabase.collection(collection).add(hashMapUser).addOnSuccessListener{ documentReference ->

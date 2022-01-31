@@ -1,2 +1,12 @@
 
 Google MAPS API Key = AIzaSyAsS1l3d0fl4QCaxXhk4y0veqQ-EEjvNew
+
+    fun toUser(): User {
+        return User(
+            userName = userName,
+            firstName = firstName,
+            lastName = lastName,
+            userPassword = userPassword,
+            confirmedPassword = confirmedPassword
+        )
+    }

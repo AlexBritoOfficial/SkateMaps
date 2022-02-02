@@ -16,15 +16,18 @@ class Repository(context: Context) {
         localRepository = LocalRepository(this.context)
     }
 
-    suspend fun insertUserIntoGoogleFireStore(user: User){
+    suspend fun insertUserIntoGoogleFireStore(user: User) {
         remoteRepository.insertUserIntoGoogleFireStore(user)
     }
 
-    suspend fun insertUserIntoCache(user: User){
+    suspend fun insertUserIntoCache(user: User) {
         localRepository.insertUserIntoCache(user)
     }
 
-    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple {
+    suspend fun checkIfUserExists(
+        userName: String?,
+        userPassword: String?
+    ): RegisteredUserTuple {
         return localRepository.checkIfUserExists(userName, userPassword)
     }
 }

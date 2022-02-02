@@ -49,7 +49,10 @@ class RegistrationViewModel(context: Context) : ViewModel() {
         }
     }
 
-    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple {
+    suspend fun checkIfUserExists(
+        userName: String?,
+        userPassword: String?
+    ): RegisteredUserTuple {
 
         return repository.checkIfUserExists(userName, userPassword)
     }

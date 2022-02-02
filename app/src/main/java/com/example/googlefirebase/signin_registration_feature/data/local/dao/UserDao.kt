@@ -9,8 +9,8 @@ import com.example.googlefirebase.signin_registration_feature.data.local.entity.
 @Dao
 interface UserDao {
 
-    @Query("SELECT username_column, user_password_column FROM user_table WHERE username_column == :userName AND user_password_column == :userPassword")
-    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple
+    @Query("SELECT username_column, user_password_column FROM user_table WHERE username_column == :username_column AND user_password_column == :user_password_column")
+     fun checkIfUserExists(username_column: String?, user_password_column: String?): RegisteredUserTuple
 
     @Insert
     suspend fun insertUserIntoLocalDatabase(userEntity: UserEntity)

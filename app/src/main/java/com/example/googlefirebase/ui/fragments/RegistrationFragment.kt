@@ -57,11 +57,11 @@ class RegistrationFragment : Fragment() {
 
         // Register Button OnClickListener
         registerButton.setOnClickListener {
-            val userNameInput = usernameTextInputEditText.text.toString()
-            val firstNameInput = firstNameTextInputEditText.text.toString()
-            val lastNameInput = lastNameTextInputEditText.text.toString()
-            val passwordInput = passwordTextInputEditText.text.toString()
-            val confirmPasswordInput = confirmPasswordTextInputEditText.text.toString()
+            val userNameInput = usernameTextInputEditText.text.toString().trim()
+            val firstNameInput = firstNameTextInputEditText.text.toString().trim()
+            val lastNameInput = lastNameTextInputEditText.text.toString().trim()
+            val passwordInput = passwordTextInputEditText.text.toString().trim()
+            val confirmPasswordInput = confirmPasswordTextInputEditText.text.toString().trim()
 
             insertUserIntoRemoteAndLocalDataCenters(
                 userNameInput,

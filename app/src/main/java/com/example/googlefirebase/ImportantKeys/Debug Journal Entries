@@ -1,0 +1,33 @@
+February 02/02/2022
+
+Considering Activities can host multiple Fragments. I'd figured it is best to place the DrawerLayout and MaterialToolbar
+in the layout file of the Activity that would host all of my fragments, instead of creating a DrawerLayout and MaterialToolbar
+for every layout file attached to the fragment. Once, I completed this I needed to figure out a way to hide the toolbar for certain
+fragments that were displayed. I ran through some solutions online and I was still getting some exceptions thrown. A specific solution had the following for its code.
+
+
+Solution Code:
+
+override fun onResume() {
+    super.onResume()
+    (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+}
+
+Calling support action bar in Kotlin gets the ActionBar attached to the Activity. I was getting an "Unresolved Reference" with my support action bar, which led to conclude that
+I most likely have to set the action bar in my activity. After some more googling I came across this line of code.
+
+Code:
+val materialToolbar = activityMainBinding.topAppBar
+setSupportActionBar(materialToolbar)
+
+Once I set the support action bar to the activity with the MaterialToolBar from the activity_main layout's file. The expected behavior worked, but it seemed to hide it across all
+fragments, not just the one I explicitly told to be hidden. Moving forward I used the following to display the toolbar in the fragments that should have it.
+
+
+Solution Code:
+
+override fun onResume() {
+    super.onResume()
+    (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+}
+

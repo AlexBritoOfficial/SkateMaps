@@ -24,10 +24,7 @@ class Repository(context: Context) {
         localRepository.insertUserIntoCache(user)
     }
 
-    suspend fun checkIfUserExists(
-        userName: String?,
-        userPassword: String?
-    ): RegisteredUserTuple {
+     suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
         return localRepository.checkIfUserExists(userName, userPassword)
     }
 }

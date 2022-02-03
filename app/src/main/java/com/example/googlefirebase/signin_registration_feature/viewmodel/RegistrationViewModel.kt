@@ -9,13 +9,14 @@ import com.example.googlefirebase.signin_registration_feature.domain.models.User
 import com.example.googlefirebase.signin_registration_feature.domain.repositories.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RegistrationViewModel(context: Context) : ViewModel() {
 
     val context = context
 
     private lateinit var repository: Repository
-    private lateinit var registeredUserTuple: RegisteredUserTuple
+    private var registeredUserTuple: RegisteredUserTuple? = null
 
     init {
         Log.i("RegistrationViewModel", "RegistrationViewModel created!")
@@ -49,15 +50,13 @@ class RegistrationViewModel(context: Context) : ViewModel() {
         }
     }
 
-    suspend fun checkIfUserExists(
-        userName: String?,
-        userPassword: String?
-    ): RegisteredUserTuple {
+    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
 
-        return repository.checkIfUserExists(userName, userPassword)
-    }
-
-    fun getRegisteredTuple(): RegisteredUserTuple {
+        withContext(Dispatchers.IO) {
+            registeredUserTuple = repository.checkIfUserExists(userName, userPassword)
+        }
         return registeredUserTuple
     }
+
+
 }

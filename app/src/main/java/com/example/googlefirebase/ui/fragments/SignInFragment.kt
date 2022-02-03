@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.googlefirebase.R
 import com.example.googlefirebase.databinding.FragmentSignInBinding
@@ -105,18 +107,18 @@ class SignInFragment : Fragment() {
 
         signInButton.setOnClickListener {
 
-//            var userName: String? = usernameTextInputEditText.text.toString().trim()
-//            var userPassword: String? = passwordTextInputEditText.text.toString().trim()
-//
-//
-//
-//            CoroutineScope(Dispatchers.IO).launch {
-//                if (registrationViewModel.checkIfUserExists(userName, userPassword) != null) {
-//
-//
-//                }
-//            }
-            findNavController().navigate(R.id.action_signFragment_to_homePageFragment)
+            var userName: String? = usernameTextInputEditText.text.toString().trim()
+            var userPassword: String? = passwordTextInputEditText.text.toString().trim()
+
+
+
+            lifecycleScope.launch {
+                if (registrationViewModel.checkIfUserExists(userName, userPassword) != null) {
+
+
+                }
+            }
+         //   findNavController().navigate(R.id.action_signFragment_to_homePageFragment)
 
         }
 

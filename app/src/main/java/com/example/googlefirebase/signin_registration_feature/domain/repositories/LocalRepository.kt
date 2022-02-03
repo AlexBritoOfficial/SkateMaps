@@ -13,9 +13,9 @@ class LocalRepository(context: Context) {
     private val context = context
     private val database = AppLocalDatabase.getDatabase(this.context)
     private val userDao = database.userDAO()
-    lateinit var registeredUserTuple: RegisteredUserTuple
+    private var registeredUserTuple: RegisteredUserTuple? = null
 
-  suspend  fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple {
+    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
         registeredUserTuple = userDao.checkIfUserExists(userName, userPassword)
         return registeredUserTuple
     }

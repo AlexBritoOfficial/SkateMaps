@@ -8,8 +8,7 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/top_app_bar">
+        android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -51,7 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true" />
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/header_navigation_header" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

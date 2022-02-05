@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/signFragment"
         android:name="com.example.googlefirebase.ui.fragments.SignInFragment"
-        android:label="SignFragment" >
+        android:label="SignFragment">
         <action
             android:id="@+id/action_signFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -19,7 +19,11 @@
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.googlefirebase.ui.fragments.RegistrationFragment"
-        android:label="RegistrationFragment" />
+        android:label="RegistrationFragment">
+        <action
+            android:id="@+id/action_registrationFragment_to_signFragment"
+            app:destination="@id/signFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homePageFragment"
         android:name="com.example.googlefirebase.ui.fragments.HomePageFragment"

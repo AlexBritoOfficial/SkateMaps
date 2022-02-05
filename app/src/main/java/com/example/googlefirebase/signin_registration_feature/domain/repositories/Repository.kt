@@ -1,6 +1,7 @@
 package com.example.googlefirebase.signin_registration_feature.domain.repositories
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
 import com.example.googlefirebase.signin_registration_feature.domain.models.User
 
@@ -9,11 +10,10 @@ class Repository(context: Context) {
     // Member  Fields
     private val context = context
     private lateinit var remoteRepository: RemoteRepository
-    private lateinit var localRepository: LocalRepository
+    private var localRepository = LocalRepository (this.context)
 
     init {
         remoteRepository = RemoteRepository(this.context)
-        localRepository = LocalRepository(this.context)
     }
 
     suspend fun insertUserIntoGoogleFireStore(user: User) {
@@ -24,7 +24,11 @@ class Repository(context: Context) {
         localRepository.insertUserIntoCache(user)
     }
 
-     suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
+//     suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple?  {
+//        return localRepository.checkIfUserExists(userName, userPassword)
+//    }
+
+    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
         return localRepository.checkIfUserExists(userName, userPassword)
     }
 }

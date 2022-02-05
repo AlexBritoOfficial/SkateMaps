@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.googlefirebase.R
 import com.example.googlefirebase.databinding.FragmentRegistrationBinding
 import com.example.googlefirebase.signin_registration_feature.viewmodel.RegistrationViewModel
 import com.example.googlefirebase.signin_registration_feature.viewmodel.RegistrationViewModelFactory
@@ -83,6 +86,8 @@ class RegistrationFragment : Fragment() {
         password: String,
         confirmedPassword: String
     ) {
+
+        Toast.makeText(context, "User Successfully Created!!!", Toast.LENGTH_SHORT).show()
         registrationViewModel.insertUserIntoRemoteAndLocalDataCenters(
             userName,
             firstName,
@@ -90,5 +95,8 @@ class RegistrationFragment : Fragment() {
             password,
             confirmedPassword
         )
+        findNavController().navigate(R.id.action_registrationFragment_to_signFragment)
     }
+
+
 }

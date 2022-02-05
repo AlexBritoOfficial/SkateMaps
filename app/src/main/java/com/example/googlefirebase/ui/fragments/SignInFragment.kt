@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.googlefirebase.R
 import com.example.googlefirebase.databinding.FragmentSignInBinding
+import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
 import com.example.googlefirebase.signin_registration_feature.viewmodel.RegistrationViewModel
 import com.example.googlefirebase.signin_registration_feature.viewmodel.RegistrationViewModelFactory
 import com.google.android.gms.common.ConnectionResult
@@ -22,9 +23,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class SignInFragment : Fragment() {
@@ -51,6 +50,9 @@ class SignInFragment : Fragment() {
     private lateinit var registerTextView: MaterialTextView
     private lateinit var signInButton: MaterialButton
 
+    // RegisteredUserTuple
+    private var registeredUserTuple: RegisteredUserTuple? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,7 +62,7 @@ class SignInFragment : Fragment() {
 
         // Check if Google API is available
         if (googleApiAvailability.isGooglePlayServicesAvailable(requireContext()) == (ConnectionResult.SUCCESS)) {
-            Toast.makeText(requireContext(), "Google API is available", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "Google API is available", Toast.LENGTH_SHORT).show()
             Log.i(
                 TAG,
                 "Google Maps API availability: " + googleApiAvailability.isGooglePlayServicesAvailable(
@@ -84,7 +86,8 @@ class SignInFragment : Fragment() {
         /*** Load UI element instances ***/
 
         // FragmentSignInBinding Binding
-        signInBinding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_sign_in, container, false)
+        signInBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_sign_in, container, false)
 
         // UserName TextInputEditText
         usernameTextInputEditText = signInBinding.usernameTextInputEditText
@@ -110,18 +113,21 @@ class SignInFragment : Fragment() {
             var userName: String? = usernameTextInputEditText.text.toString().trim()
             var userPassword: String? = passwordTextInputEditText.text.toString().trim()
 
+            lifecycleScope.launch(Dispatchers.IO) {
+                if (checkIfUserExists(userName, userPassword) != null) {
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(context, "Successful Log-In User Found", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_signFragment_to_homePageFragment)
+                    }
+                }
 
-
-            lifecycleScope.launch {
-                if (registrationViewModel.checkIfUserExists(userName, userPassword) != null) {
-
-
+                else{
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(context, "UnSuccessful Log-In User Not Found", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-         //   findNavController().navigate(R.id.action_signFragment_to_homePageFragment)
-
         }
-
 
         return signInBinding.root
     }
@@ -129,5 +135,9 @@ class SignInFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
+
+    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
+        return registrationViewModel.checkIfUserExists(userName, userPassword)
     }
 }

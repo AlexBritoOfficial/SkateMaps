@@ -2,6 +2,7 @@ package com.example.googlefirebase.signin_registration_feature.viewmodel
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
@@ -16,7 +17,7 @@ class RegistrationViewModel(context: Context) : ViewModel() {
     val context = context
 
     private lateinit var repository: Repository
-    private var registeredUserTuple: RegisteredUserTuple? = null
+    var registeredUserTuple: RegisteredUserTuple? = null
 
     init {
         Log.i("RegistrationViewModel", "RegistrationViewModel created!")
@@ -34,7 +35,7 @@ class RegistrationViewModel(context: Context) : ViewModel() {
         Log.i("RegistrationViewModel", "RegistrationViewModel destroyed!")
     }
 
-    fun insertUserIntoRemoteAndLocalDataCenters(
+     fun insertUserIntoRemoteAndLocalDataCenters(
         userName: String,
         firstName: String,
         lastName: String,
@@ -50,13 +51,22 @@ class RegistrationViewModel(context: Context) : ViewModel() {
         }
     }
 
-    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
 
-        withContext(Dispatchers.IO) {
-            registeredUserTuple = repository.checkIfUserExists(userName, userPassword)
-        }
-        return registeredUserTuple
+//    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
+//
+//        withContext(Dispatchers.IO) {
+//            registeredUserTuple = repository.checkIfUserExists(userName, userPassword)
+//        }
+//        return registeredUserTuple
+//    }
+
+   suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
+
+       withContext(Dispatchers.IO) {
+          registeredUserTuple = repository.checkIfUserExists(userName, userPassword)
+
+       }
+       return registeredUserTuple
     }
-
 
 }

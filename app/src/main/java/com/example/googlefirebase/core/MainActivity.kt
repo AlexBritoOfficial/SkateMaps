@@ -58,12 +58,16 @@ class MainActivity : AppCompatActivity() {
          navController.graph, activityMainBinding.drawerLayout
         )
 
-        navigationView = activityMainBinding.navView
+        // Set up Navigation View with NavController
         navigationView.setupWithNavController(navController)
 
+        // Set an OnClickListener on the Material Toolbar
         materialToolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }

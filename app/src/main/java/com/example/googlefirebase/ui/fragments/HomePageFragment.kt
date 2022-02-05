@@ -180,7 +180,7 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
 
     companion object {
         private val TAG = "HomePageFragment"
-        private const val DEFAULT_ZOOM = 15
+        private const val DEFAULT_ZOOM = 20
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 
         // Keys for storing activity state.

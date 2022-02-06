@@ -18,5 +18,14 @@
             android:id="@+id/bars_fragment"
             android:title="Bars"
             />
+
+        <item
+            android:id="@+id/about_us_fragment"
+            android:title="About Us"
+            />
+        <item
+            android:id="@+id/terms_and_privacy_fragment"
+            android:title="Terms and Privacy"
+            />
     </group>
 </menu>

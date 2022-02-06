@@ -6,8 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
+import com.example.googlefirebase.signin_registration_feature.domain.models.Spot
 import com.example.googlefirebase.signin_registration_feature.domain.models.User
 import com.example.googlefirebase.signin_registration_feature.domain.repositories.Repository
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,15 +52,6 @@ class RegistrationViewModel(context: Context) : ViewModel() {
             repository.insertUserIntoCache(user)
         }
     }
-
-
-//    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
-//
-//        withContext(Dispatchers.IO) {
-//            registeredUserTuple = repository.checkIfUserExists(userName, userPassword)
-//        }
-//        return registeredUserTuple
-//    }
 
    suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
 

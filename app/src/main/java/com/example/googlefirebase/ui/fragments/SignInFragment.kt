@@ -43,7 +43,6 @@ class SignInFragment : Fragment() {
     // ViewModel Factory
     private lateinit var registrationViewModelFactory: RegistrationViewModelFactory
 
-
     // UI Elements
     private lateinit var usernameTextInputEditText: TextInputEditText
     private lateinit var passwordTextInputEditText: TextInputEditText
@@ -59,7 +58,6 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         // Check if Google API is available
         if (googleApiAvailability.isGooglePlayServicesAvailable(requireContext()) == (ConnectionResult.SUCCESS)) {
             //Toast.makeText(requireContext(), "Google API is available", Toast.LENGTH_SHORT).show()
@@ -74,10 +72,12 @@ class SignInFragment : Fragment() {
                 .show()
         }
 
+        // Create an instance of the RegistrationViewModelFactory
         registrationViewModelFactory = RegistrationViewModelFactory(
             requireContext()
         )
 
+        // Create an instance of the RegistrationViewModel
         registrationViewModel = ViewModelProvider(
             this,
             registrationViewModelFactory
@@ -103,10 +103,8 @@ class SignInFragment : Fragment() {
             findNavController().navigate(R.id.action_signFragment_to_registrationFragment)
         }
 
-
         // Sign In MaterialButton
         signInButton = signInBinding.signInButton
-
 
         signInButton.setOnClickListener {
 
@@ -132,6 +130,7 @@ class SignInFragment : Fragment() {
         return signInBinding.root
     }
 
+    // onResume LifeCycle Method
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()

@@ -2,6 +2,7 @@ package com.example.googlefirebase.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -10,16 +11,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.convertTo
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.googlefirebase.R
+import com.example.googlefirebase.databinding.AddSkateSpotDialogBinding
 import com.example.googlefirebase.databinding.FragmentHomePageBinding
+import com.example.googlefirebase.signin_registration_feature.domain.models.Spot
+import com.example.googlefirebase.signin_registration_feature.viewmodel.HomePageViewModel
+import com.example.googlefirebase.signin_registration_feature.viewmodel.HomePageViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
@@ -28,6 +38,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -37,10 +51,16 @@ import com.google.android.libraries.places.api.net.PlacesClient
 class HomePageFragment : Fragment(), OnMapReadyCallback{
 
     /** Class Properties **/
+    private lateinit var homePageViewModelFactory: HomePageViewModelFactory
+    private lateinit var homePageViewModel: HomePageViewModel
     private lateinit var googleMap : GoogleMap
     private lateinit var fragmentHomePageBinding: FragmentHomePageBinding
     private lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var addSpotFloatingActionButton: FloatingActionButton
+    private lateinit var skateSpotNameDialogEditText: EditText
+    private lateinit var skateSpotCityDialogEditText: EditText
+    private lateinit var skateSpotStateDialogEditText: EditText
 
 
     // A default location (Sydney, Australia) and default zoom to use when location permission is
@@ -60,10 +80,18 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        // Create an instance of HomePageViewModelFactory
+        homePageViewModelFactory = HomePageViewModelFactory(requireContext())
+
+        // Create an instance of HomePageViewModel
+        homePageViewModel = ViewModelProvider(this, homePageViewModelFactory).get(HomePageViewModel::class.java)
+
         // Inflate the layout for this fragment
         fragmentHomePageBinding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home_page, container, false)
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
+
+        addSpotFloatingActionButton = fragmentHomePageBinding.floatingActionButton
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -75,13 +103,18 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
         // Construct a FusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-
+        addSpotFloatingActionButton.setOnClickListener {
+            openAddSkateSpotDialogBox()
+        }
 
         return fragmentHomePageBinding.root
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap  = googleMap
+
+        val spot = LatLng(42.427812506635576,-71.05276535924072)
+        googleMap.addMarker(MarkerOptions().position(spot).title("Malden Skatepark"))
 
         // Prompt the user for permission.
         getLocationPermission()
@@ -180,7 +213,7 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
 
     companion object {
         private val TAG = "HomePageFragment"
-        private const val DEFAULT_ZOOM = 20
+        private const val DEFAULT_ZOOM = 5
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 
         // Keys for storing activity state.
@@ -194,5 +227,41 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
+
+    fun openAddSkateSpotDialogBox(){
+        val builder: AlertDialog.Builder? = activity?.let {
+            AlertDialog.Builder(it)
+        }
+
+        val inflater = requireActivity().layoutInflater
+        val view = inflater.inflate(R.layout.add_skate_spot_dialog,null)
+
+        builder!!.setTitle("Add Skate Spot")
+        builder!!.setView(view).setPositiveButton("Submit", DialogInterface.OnClickListener { dialogInterface, i ->
+
+            // Get Device Location
+            getDeviceLocation()
+            val latitude = lastKnownLocation!!.latitude
+            val longitude = lastKnownLocation!!.longitude
+
+
+            skateSpotNameDialogEditText = view.findViewById(R.id.spot_name)
+            val spotName = skateSpotNameDialogEditText.text.toString()
+
+            skateSpotCityDialogEditText = view.findViewById(R.id.spot_city)
+            val spotCity = skateSpotCityDialogEditText.text.toString()
+
+            skateSpotStateDialogEditText = view.findViewById(R.id.spot_state)
+            val spotState = skateSpotStateDialogEditText.text.toString()
+
+            homePageViewModel.insertSpotIntoGoogleFireStore(latitude,longitude,spotName,spotCity,spotState)
+
+        }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialogInterface, i ->
+                builder.create().hide()
+        })
+
+        val dialog: AlertDialog? = builder?.create()
+        dialog!!.show()
     }
 }

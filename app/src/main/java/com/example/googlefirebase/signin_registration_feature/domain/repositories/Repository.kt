@@ -3,6 +3,7 @@ package com.example.googlefirebase.signin_registration_feature.domain.repositori
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.googlefirebase.signin_registration_feature.data.local.entity.RegisteredUserTuple
+import com.example.googlefirebase.signin_registration_feature.domain.models.Spot
 import com.example.googlefirebase.signin_registration_feature.domain.models.User
 
 class Repository(context: Context) {
@@ -18,6 +19,10 @@ class Repository(context: Context) {
 
     suspend fun insertUserIntoGoogleFireStore(user: User) {
         remoteRepository.insertUserIntoGoogleFireStore(user)
+    }
+
+    suspend fun insertSpotIntoGoogleFireStore(spot: Spot){
+        remoteRepository.insertSpotIntoGoogleFireStore(spot)
     }
 
     suspend fun insertUserIntoCache(user: User) {

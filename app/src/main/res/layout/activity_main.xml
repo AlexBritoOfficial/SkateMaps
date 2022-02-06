@@ -42,6 +42,7 @@
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
@@ -51,7 +52,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:headerLayout="@layout/header_navigation_header" />
+            app:headerLayout="@layout/header_navigation_header"
+            app:menu="@menu/top_app_bar"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

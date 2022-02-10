@@ -14,12 +14,19 @@ class RemoteRepository(context: Context) {
         googleFireStoreRepository = GoogleFireStore(this.context)
     }
 
-   suspend fun insertUserIntoGoogleFireStore(user: User){
+    suspend fun insertUserIntoGoogleFireStore(user: User) {
         googleFireStoreRepository.insertUserIntoGoogleFireStore(user)
     }
 
-    suspend fun insertSpotIntoGoogleFireStore(spot: Spot){
+    suspend fun insertSpotIntoGoogleFireStore(spot: Spot) {
         googleFireStoreRepository.insertSpotIntoGoogleFireStore(spot)
     }
 
+    suspend fun getAllSpots(): ArrayList<Spot> {
+        return googleFireStoreRepository.getAllSpots()
+    }
+
+//    suspend fun getAllSpots() {
+//        return googleFireStoreRepository.getAllSpots()
+//    }
 }

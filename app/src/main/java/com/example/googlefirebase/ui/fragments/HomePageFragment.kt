@@ -75,7 +75,6 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,8 +87,6 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
 
         // Inflate the layout for this fragment
         fragmentHomePageBinding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home_page, container, false)
-
-        // Get the SupportMapFragment and request notification when the map is ready to be used.
 
         addSpotFloatingActionButton = fragmentHomePageBinding.floatingActionButton
 
@@ -104,7 +101,8 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         addSpotFloatingActionButton.setOnClickListener {
-            openAddSkateSpotDialogBox()
+//            openAddSkateSpotDialogBox()
+            homePageViewModel.getAllSpots()
         }
 
         return fragmentHomePageBinding.root
@@ -229,6 +227,8 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
+
+    // Function that will build the Add Skate Spot Dialog Box
     fun openAddSkateSpotDialogBox(){
         val builder: AlertDialog.Builder? = activity?.let {
             AlertDialog.Builder(it)
@@ -264,4 +264,5 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
         val dialog: AlertDialog? = builder?.create()
         dialog!!.show()
     }
+
 }

@@ -36,5 +36,13 @@ class Repository(context: Context) {
     suspend fun checkIfUserExists(userName: String?, userPassword: String?): RegisteredUserTuple? {
         return localRepository.checkIfUserExists(userName, userPassword)
     }
+
+    suspend fun getAllSpots(): ArrayList<Spot>{
+        return remoteRepository.getAllSpots()
+    }
+
+//    suspend fun getAllSpots(){
+//        return remoteRepository.getAllSpots()
+//    }
 }
 

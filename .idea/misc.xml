@@ -15,7 +15,9 @@
         <entry key="app/src/main/res/layout/fragment_home_page.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.3336922110140792" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.26576279452035506" />
+        <entry key="app/src/main/res/layout/fragment_spots.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/header_navigation_header.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/list_of_spots_reyclerview.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/menu/navigation_view_menu_items.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/menu/top_app_bar.xml" value="0.32916666666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/brazilian_top_team.xml" value="0.13229166666666667" />

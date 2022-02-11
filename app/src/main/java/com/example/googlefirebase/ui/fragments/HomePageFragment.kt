@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.convertTo
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -101,9 +102,10 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         addSpotFloatingActionButton.setOnClickListener {
-//            openAddSkateSpotDialogBox()
-            homePageViewModel.getAllSpots()
+            openAddSkateSpotDialogBox()
+
         }
+
 
         return fragmentHomePageBinding.root
     }
@@ -111,8 +113,14 @@ class HomePageFragment : Fragment(), OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap  = googleMap
 
-        val spot = LatLng(42.427812506635576,-71.05276535924072)
-        googleMap.addMarker(MarkerOptions().position(spot).title("Malden Skatepark"))
+        homePageViewModel.mutableLiveSpotsAccessor.observe(viewLifecycleOwner, Observer {
+                it ->
+            it.forEach(){
+                val latLng = LatLng(it.spotLatLng!!.latitude, it.spotLatLng!!.longitude)
+                googleMap.addMarker(MarkerOptions().position(latLng).title(it.name))
+            }
+
+        })
 
         // Prompt the user for permission.
         getLocationPermission()

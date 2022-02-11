@@ -8,11 +8,7 @@ class RemoteRepository(context: Context) {
 
     val context = context
 
-    private lateinit var googleFireStoreRepository: GoogleFireStore
-
-    init {
-        googleFireStoreRepository = GoogleFireStore(this.context)
-    }
+    var googleFireStoreRepository: GoogleFireStore = GoogleFireStore(this.context)
 
     suspend fun insertUserIntoGoogleFireStore(user: User) {
         googleFireStoreRepository.insertUserIntoGoogleFireStore(user)

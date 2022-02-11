@@ -10,8 +10,8 @@ class Repository(context: Context) {
 
     // Member  Fields
     private val context = context
-    private lateinit var remoteRepository: RemoteRepository
-    private var localRepository = LocalRepository (this.context)
+    var remoteRepository: RemoteRepository
+    var localRepository = LocalRepository(this.context)
 
     init {
         remoteRepository = RemoteRepository(this.context)
@@ -21,7 +21,7 @@ class Repository(context: Context) {
         remoteRepository.insertUserIntoGoogleFireStore(user)
     }
 
-    suspend fun insertSpotIntoGoogleFireStore(spot: Spot){
+    suspend fun insertSpotIntoGoogleFireStore(spot: Spot) {
         remoteRepository.insertSpotIntoGoogleFireStore(spot)
     }
 
@@ -37,7 +37,7 @@ class Repository(context: Context) {
         return localRepository.checkIfUserExists(userName, userPassword)
     }
 
-    suspend fun getAllSpots(): ArrayList<Spot>{
+    suspend fun getAllSpots(): ArrayList<Spot> {
         return remoteRepository.getAllSpots()
     }
 

@@ -2,12 +2,10 @@ package com.example.googlefirebase.signin_registration_feature.domain.repositori
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.googlefirebase.signin_registration_feature.domain.models.Spot
 import com.example.googlefirebase.signin_registration_feature.domain.models.User
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 
@@ -47,9 +45,9 @@ class GoogleFireStore(context: Context) {
         return hashMapOf(
             "latitude" to spot.spotLatLng!!.latitude.toString(),
             "longitude" to spot.spotLatLng!!.longitude.toString(),
-            "name" to spot.spotName,
-            "spotCity" to spot.spotCity,
-            "spotState" to spot.spotState
+            "name" to spot.name,
+            "spotCity" to spot.city,
+            "spotState" to spot.state
         )
     }
 
@@ -85,8 +83,8 @@ class GoogleFireStore(context: Context) {
                 val latitude = document.getString("latitude")
                 val longitude = document.getString("longitude")
                 val spotName = document.getString("name")
-                val spotCity = document.getString("spotCity")
-                val spotState = document.getString("spotState")
+                val spotCity = document.getString("city")
+                val spotState = document.getString("state")
                 listOfSpots.add(Spot(LatLng(latitude!!.toDouble(),longitude!!.toDouble()), spotName, spotCity, spotState))
             }
         }.addOnFailureListener { exception ->

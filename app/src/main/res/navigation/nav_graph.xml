@@ -28,5 +28,28 @@
         android:id="@+id/homePageFragment"
         android:name="com.example.googlefirebase.ui.fragments.HomePageFragment"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page">
+        <action
+            android:id="@+id/action_profile_navigation_menu_item_to_spots_fragment"
+            app:destination="@+id/spotsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/spotsFragment"
+        android:name="com.example.googlefirebase.ui.fragments.SpotsFragment"
+        android:label="SpotsFragment"
+        tools:layout="@layout/fragment_spots">
+
+        <action
+            android:id="@+id/action_recycler_view_spots_list_to_spots_description_fragment"
+            app:destination="@+id/spotsDescriptionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/spotsDescriptionFragment"
+        android:name="com.example.googlefirebase.ui.fragments.SpotsDescriptionFragment"
+        android:label="SpotsDescriptionFragment">
+    </fragment>
+
 </navigation>

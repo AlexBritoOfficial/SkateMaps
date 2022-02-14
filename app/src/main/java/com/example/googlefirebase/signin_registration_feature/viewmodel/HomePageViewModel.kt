@@ -2,7 +2,6 @@ package com.example.googlefirebase.signin_registration_feature.viewmodel
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.animation.core.snap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 class HomePageViewModel(context: Context) : ViewModel() {
 
     val context = context
-    private lateinit var repository: Repository
+    private var repository: Repository
     private var listOfSpots: ArrayList<Spot> = ArrayList()
     private var spotsCollection = "Spots"
 
@@ -32,38 +31,41 @@ class HomePageViewModel(context: Context) : ViewModel() {
 
     // This function will listen to new spots added into the Firestore database
     private fun listenToSpots() {
-        repository.remoteRepository.googleFireStoreRepository.firestoreDatabase.collection(
-            spotsCollection
-        ).addSnapshotListener { snapshot, error ->
 
-            if (error != null) {
-                return@addSnapshotListener
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.remoteRepository.googleFireStoreRepository.firestoreDatabase.collection(
+                spotsCollection
+            ).addSnapshotListener { snapshot, error ->
 
-            if (snapshot != null) {
-                // Create list to store spots
-                val listOfSpots = ArrayList<Spot>()
-                val documents = snapshot.documents
-                for (document in documents) {
-
-                    val latitude = document.getString("latitude")
-                    val longitude = document.getString("longitude")
-                    val spotName = document.getString("name")
-                    val spotCity = document.getString("city")
-                    val spotState = document.getString("state")
-                    listOfSpots.add(
-                        Spot(
-                            LatLng(latitude!!.toDouble(), longitude!!.toDouble()),
-                            spotName,
-                            spotCity,
-                            spotState
-                        )
-                    )
+                if (error != null) {
+                    return@addSnapshotListener
                 }
 
-                mutableLiveSpots.value = listOfSpots
-            }
+                if (snapshot != null) {
+                    // Create list to store spots
+                    val listOfSpots = ArrayList<Spot>()
+                    val documents = snapshot.documents
+                    for (document in documents) {
 
+                        val latitude = document.getString("latitude")
+                        val longitude = document.getString("longitude")
+                        val spotName = document.getString("name")
+                        val spotCity = document.getString("city")
+                        val spotState = document.getString("state")
+                        listOfSpots.add(
+                            Spot(
+                                LatLng(latitude!!.toDouble(), longitude!!.toDouble()),
+                                spotName,
+                                spotCity,
+                                spotState
+                            )
+                        )
+                    }
+
+                    mutableLiveSpots.value = listOfSpots
+                }
+
+            }
         }
     }
 
@@ -91,24 +93,10 @@ class HomePageViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun getAllSpots(): ArrayList<Spot> {
-        viewModelScope.launch(Dispatchers.IO) {
-            listOfSpots = repository.getAllSpots()
-            mutableLiveSpots.value = listOfSpots
-        }
-        return listOfSpots
-    }
-
     internal var mutableLiveSpotsAccessor: MutableLiveData<ArrayList<Spot>>
         get() = mutableLiveSpots
         set(value) {
             mutableLiveSpots = value
         }
-
-//    fun getAllSpots(){
-//      viewModelScope.launch(Dispatchers.IO) {
-//          repository.getAllSpots()
-//      }
-//    }
 }
 

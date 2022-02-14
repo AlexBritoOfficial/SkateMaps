@@ -3,12 +3,15 @@ package com.example.googlefirebase.core
 import android.icu.lang.UCharacter.IndicPositionalCategory.LEFT
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -20,8 +23,11 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    /** Class Members **/
+
+    private val TAG = "Main Activity"
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var materialToolbar: MaterialToolbar
@@ -49,13 +55,12 @@ class MainActivity : AppCompatActivity() {
 
         // Set Navigation View
         navigationView = activityMainBinding.navView
-
         // Set up NavController
         val navController = navHostFragment.navController
 
         // AppBarConfiguration
         appBarConfiguration = AppBarConfiguration(
-         navController.graph, activityMainBinding.drawerLayout
+            navController.graph, activityMainBinding.drawerLayout
         )
 
         // Set up Navigation View with NavController
@@ -65,9 +70,25 @@ class MainActivity : AppCompatActivity() {
         materialToolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+
+        navigationView.setNavigationItemSelectedListener(this)
+
+
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+
+            R.id.spots_fragment ->
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_profile_navigation_menu_item_to_spots_fragment)
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 }

@@ -1,21 +1,15 @@
 package com.example.googlefirebase.core
 
-import android.icu.lang.UCharacter.IndicPositionalCategory.LEFT
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
-import android.view.Gravity
-import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.googlefirebase.R
 import com.example.googlefirebase.databinding.ActivityMainBinding
@@ -66,6 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Set up Navigation View with NavController
         navigationView.setupWithNavController(navController)
 
+
         // Set an OnClickListener on the Material Toolbar
         materialToolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
@@ -73,22 +68,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigationView.setNavigationItemSelectedListener(this)
 
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
-    }
+        val fragments = navHost.childFragmentManager.fragments
 
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
 
-            R.id.spots_fragment ->
+            R.id.spots_fragment -> {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.action_profile_navigation_menu_item_to_spots_fragment)
+            }
+
+            R.id.sign_out_menu_item -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.signInFragment)
+            }
 
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
 }

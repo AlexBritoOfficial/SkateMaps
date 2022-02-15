@@ -87,6 +87,26 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!--      EMAIL      -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_outlinedTextField"
+                style="@style/RegisterLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:textColorHint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_textInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- PASSWORD -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/RegisterLayoutStyle"
@@ -128,6 +148,8 @@
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

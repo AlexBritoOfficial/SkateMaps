@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/signFragment">
+    app:startDestination="@id/signInFragment">
 
     <fragment
-        android:id="@+id/signFragment"
+        android:id="@+id/signInFragment"
         android:name="com.example.googlefirebase.ui.fragments.SignInFragment"
-        android:label="SignFragment">
+        android:label="SignInFragment">
         <action
             android:id="@+id/action_signFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -22,7 +22,7 @@
         android:label="RegistrationFragment">
         <action
             android:id="@+id/action_registrationFragment_to_signFragment"
-            app:destination="@id/signFragment" />
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/homePageFragment"
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/spotsFragment"
-        android:name="com.example.googlefirebase.ui.fragments.SpotsFragment"
+        android:name="com.example.googlefirebase.ui.fragments.SpotsListFragment"
         android:label="SpotsFragment"
         tools:layout="@layout/fragment_spots">
 

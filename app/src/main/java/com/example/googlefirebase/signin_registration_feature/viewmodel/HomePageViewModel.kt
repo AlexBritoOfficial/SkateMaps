@@ -5,11 +5,14 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.googlefirebase.signin_registration_feature.data.local.entity.UserEntity
 import com.example.googlefirebase.signin_registration_feature.domain.models.Spot
+import com.example.googlefirebase.signin_registration_feature.domain.models.User
 import com.example.googlefirebase.signin_registration_feature.domain.repositories.Repository
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomePageViewModel(context: Context) : ViewModel() {
 
@@ -17,6 +20,8 @@ class HomePageViewModel(context: Context) : ViewModel() {
     private var repository: Repository
     private var listOfSpots: ArrayList<Spot> = ArrayList()
     private var spotsCollection = "Spots"
+    var userEntity: UserEntity? = null
+    var user: User? = null
 
     // Create LiveData Object for Spot
     private var mutableLiveSpots: MutableLiveData<ArrayList<Spot>> =
@@ -91,6 +96,16 @@ class HomePageViewModel(context: Context) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertSpotIntoGoogleFireStore(spot)
         }
+    }
+
+    suspend fun getUser(userName: String): User? {
+
+        withContext(Dispatchers.IO) {
+            userEntity = repository.localRepository.getUser(userName)
+            user = userEntity!!.toUser()
+        }
+
+        return user
     }
 
     internal var mutableLiveSpotsAccessor: MutableLiveData<ArrayList<Spot>>

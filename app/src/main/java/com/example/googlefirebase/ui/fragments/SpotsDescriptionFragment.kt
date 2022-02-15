@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.googlefirebase.R
@@ -34,8 +35,11 @@ class SpotsDescriptionFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-       val bundle = requireArguments()
-       val spot: Spot? = bundle.getParcelable(SPOT_PARCELABLE_TAG)
+       val receivingBundle = requireArguments()
+       val spot: Spot? = receivingBundle.getParcelable(SPOT_PARCELABLE_TAG)
+
+        // Set AppBarConfiguration to match fragment
+        (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle(spot!!.name)
 
         // Load FragmentSpotDescriptionRecyclerViewItemBinding object
         fragmentSpotsDescriptionRecyclerView = DataBindingUtil.inflate(

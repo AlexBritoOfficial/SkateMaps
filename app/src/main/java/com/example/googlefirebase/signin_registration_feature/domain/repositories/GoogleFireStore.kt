@@ -35,6 +35,7 @@ class GoogleFireStore(context: Context) {
             "username" to user.userName,
             "firstname" to user.firstName,
             "lastname" to user.lastName,
+            "email" to user.email,
             "password" to user.userPassword,
             "confirmPassword" to user.confirmedPassword
         )

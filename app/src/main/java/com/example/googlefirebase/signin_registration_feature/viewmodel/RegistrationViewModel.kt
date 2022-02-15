@@ -41,11 +41,12 @@ class RegistrationViewModel(context: Context) : ViewModel() {
         userName: String,
         firstName: String,
         lastName: String,
+        email: String,
         password: String,
         confirmedPassword: String
     ) {
         val user =
-            User(userName, firstName, lastName, password, confirmedPassword)
+            User(userName, firstName, lastName, email, password, confirmedPassword)
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertUserIntoGoogleFireStore(user)

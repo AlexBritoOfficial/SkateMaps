@@ -31,6 +31,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var firstNameTextInputEditText: TextInputEditText
     private lateinit var lastNameTextInputEditText: TextInputEditText
     private lateinit var passwordTextInputEditText: TextInputEditText
+    private lateinit var emailTextInputEditText: TextInputEditText
     private lateinit var confirmPasswordTextInputEditText: TextInputEditText
     private lateinit var registerButton: MaterialButton
 
@@ -45,6 +46,7 @@ class RegistrationFragment : Fragment() {
         usernameTextInputEditText = registrationBinding.usernameTextInputEditText
         firstNameTextInputEditText = registrationBinding.firstNameTextInputEditText
         lastNameTextInputEditText = registrationBinding.lastNameTextInputEditText
+        emailTextInputEditText = registrationBinding.emailTextInputEditText
         passwordTextInputEditText = registrationBinding.passwordTextInputEditText
         confirmPasswordTextInputEditText = registrationBinding.confirmPasswordTextInputEditText
         registerButton = registrationBinding.registerInButton
@@ -63,6 +65,7 @@ class RegistrationFragment : Fragment() {
             val userNameInput = usernameTextInputEditText.text.toString().trim()
             val firstNameInput = firstNameTextInputEditText.text.toString().trim()
             val lastNameInput = lastNameTextInputEditText.text.toString().trim()
+            val emailInput = emailTextInputEditText.text.toString().trim()
             val passwordInput = passwordTextInputEditText.text.toString().trim()
             val confirmPasswordInput = confirmPasswordTextInputEditText.text.toString().trim()
 
@@ -70,6 +73,7 @@ class RegistrationFragment : Fragment() {
                 userNameInput,
                 firstNameInput,
                 lastNameInput,
+                emailInput,
                 passwordInput,
                 confirmPasswordInput
             )
@@ -83,6 +87,7 @@ class RegistrationFragment : Fragment() {
         userName: String,
         firstName: String,
         lastName: String,
+        email: String,
         password: String,
         confirmedPassword: String
     ) {
@@ -92,6 +97,7 @@ class RegistrationFragment : Fragment() {
             userName,
             firstName,
             lastName,
+            email,
             password,
             confirmedPassword
         )

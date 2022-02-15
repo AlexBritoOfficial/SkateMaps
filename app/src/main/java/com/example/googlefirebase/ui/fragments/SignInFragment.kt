@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,12 +24,14 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 class SignInFragment : Fragment() {
 
     // TAG
     private val TAG = "HomepageFragment"
+
+    // Username String Parcelable
+    private val USERNAME_STRING_BUNDLE_TAG = "UserNameString"
 
     // Google API
     private val googleApiAvailability = GoogleApiAvailability()
@@ -51,6 +53,16 @@ class SignInFragment : Fragment() {
 
     // RegisteredUserTuple
     private var registeredUserTuple: RegisteredUserTuple? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity!!.finishAffinity()
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,14 +120,24 @@ class SignInFragment : Fragment() {
 
         signInButton.setOnClickListener {
 
+            // Get values from TextInputEditText boxes
             var userName: String? = usernameTextInputEditText.text.toString().trim()
             var userPassword: String? = passwordTextInputEditText.text.toString().trim()
 
             lifecycleScope.launch(Dispatchers.IO) {
                 if (checkIfUserExists(userName, userPassword) != null) {
                     launch(Dispatchers.Main) {
+
+                        // Display TOAST notifying user he/she/they have successsfully logged in.
                         Toast.makeText(context, "Successful Log-In User Found", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_signFragment_to_homePageFragment)
+
+                        // Create a Bundle object to pass information to HomePageFragment
+                        val bundle = Bundle()
+
+                        // Place username in the bundle, this will serve as a means to retrieving the user's full information from the local database.
+                        bundle.putString(USERNAME_STRING_BUNDLE_TAG, userName)
+
+                        findNavController().navigate(R.id.action_signFragment_to_homePageFragment, bundle)
                     }
                 }
 

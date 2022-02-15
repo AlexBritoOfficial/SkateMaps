@@ -3,7 +3,6 @@ package com.example.googlefirebase.signin_registration_feature.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.googlefirebase.ui.fragments.SpotsFragment
 
 class SpotsViewModelFactory(context: Context) : ViewModelProvider.Factory {
 

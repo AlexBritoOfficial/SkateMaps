@@ -26,10 +26,14 @@ class LocalRepository(context: Context) {
     }
 
     suspend fun insertUserIntoCache(user: User) {
-        val (userName, firstName, lastName, userPassword, confirmedPassword) = user
+        val (userName, firstName, lastName, email, userPassword, confirmedPassword) = user
         val userEntity =
-            UserEntity(0, userName, firstName, lastName, userPassword, confirmedPassword)
+            UserEntity(0, userName, firstName, lastName,email, userPassword, confirmedPassword)
         userDao.insertUserIntoLocalDatabase(userEntity)
+    }
+
+    suspend fun getUser(userName: String): UserEntity? {
+        return userDao.getUser(userName)
     }
 
 }

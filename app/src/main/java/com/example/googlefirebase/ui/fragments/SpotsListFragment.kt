@@ -22,10 +22,10 @@ import com.example.googlefirebase.ui.adapters.SpotsListAdapter
 import com.example.googlefirebase.util.onSpotClickedListener
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
-class SpotsFragment() : Fragment(), onSpotClickedListener {
+class SpotsListFragment() : Fragment(), onSpotClickedListener {
 
     /** Class Properties **/
-    private val TAG = "SpotsFragment"
+    private val TAG = "SpotsListFragment"
     private val SPOT_PARCELABLE_TAG = "SpotParcelable"
     private lateinit var fragmentSpotsBinding: FragmentSpotsBinding
     private lateinit var spotsViewModelFactory: SpotsViewModelFactory
@@ -45,6 +45,9 @@ class SpotsFragment() : Fragment(), onSpotClickedListener {
         savedInstanceState: Bundle?
     ): View? {
 
+        // Set AppBarConfiguration to match fragment
+        (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle("Spots")
+
         // Create an instance of SpotsViewModelFactory
         spotsViewModelFactory = SpotsViewModelFactory(requireContext())
         spotsViewModel =
@@ -63,28 +66,37 @@ class SpotsFragment() : Fragment(), onSpotClickedListener {
         // Set the Spots RecyclerView object LayoutManager
         spotsRecyclerView.layoutManager = linearLayoutManager
 
+        // Initialize SpotsListAdapter
         spotsListAdapter = SpotsListAdapter(requireContext(), this)
+
+        // Set adapter for SpotsRecyclerView
         spotsRecyclerView.adapter = spotsListAdapter
 
+        // Set an observer to observe mutableLiveSpotsAccessor
         spotsViewModel.mutableLiveSpotsAccessor.observe(viewLifecycleOwner, Observer { t ->
             // Initialize the SpotsListAdapter object
             spotsListAdapter.setData(t)
         })
+
 
         return fragmentSpotsBinding.root
     }
 
     override fun onResume() {
         super.onResume()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle("Spots")
     }
 
     override fun onItemClicked(spot: Spot?) {
 
         println("You clicked ${spot!!.name}")
 
+        // Create a Bundle object to pass information to Spot Description Fragment
         val bundle = Bundle()
+
+        // Place the Parcelable into the bundle.
         bundle.putParcelable(SPOT_PARCELABLE_TAG, spot)
+
+        // Navigate to the Spots Description Fragment
         findNavController().navigate(
             R.id.action_recycler_view_spots_list_to_spots_description_fragment,
             bundle

@@ -13,6 +13,7 @@ data class UserEntity(
     @ColumnInfo(name = "username_column") var userName: String?,
     @ColumnInfo(name = "firstname_column") var firstName: String?,
     @ColumnInfo(name = "lastname_column") var lastName: String?,
+    @ColumnInfo(name = "email_column") var email: String?,
     @ColumnInfo(name = "user_password_column") var userPassword: String?,
     @ColumnInfo(name = "user_confirmed_password_column") var confirmedPassword: String?
 )
@@ -22,6 +23,7 @@ data class UserEntity(
             userName = userName,
             firstName = firstName,
             lastName = lastName,
+            email = email,
             userPassword = userPassword,
             confirmedPassword = confirmedPassword
         )
